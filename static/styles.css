@@ -1,0 +1,240 @@
+
+/* Root variables for our  app's colours */
+:root {
+    --primary-color: #4169E1; 
+    --primary-hover: #3557d1;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-muted: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(65, 105, 225, 0.25);
+}
+
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    background-color: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+
+.form-control {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 0.75rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(65, 105, 225, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead th {
+    background-color: var(--light-bg);
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    padding: 1rem 0.75rem;
+}
+
+.table tbody td {
+    padding: 0.9rem 0.75rem;
+    border-top: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+
+.badge {
+    font-size: 0.75em;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 4px;
+}
+
+.badge.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.badge.bg-secondary {
+    background-color: var(--text-muted) !important;
+}
+
+.alert {
+    border-radius: 6px;
+    border: none;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--light-bg);
+    color: var(--text-muted);
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.status-confirmed {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.status-cancelled {
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2.5rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-section p {
+        font-size: 1.1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.bg-light-custom {
+    background-color: var(--light-bg);
+}
+
+.footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    background-color: var(--light-bg);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.btn {
+    transition: all 0.2s ease-in-out;
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-spacing {
+    margin: 3rem 0;
+}
+
+.card-spacing {
+    margin-bottom: 2rem;
+}
+
+.no-data-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.no-data-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}

@@ -1,0 +1,224 @@
+{% extends "layout.html" %}
+
+{% block title %}Register - Student Union Club Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Registration Card -->
+            <div class="card card-spacing">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Create Account
+                    </h4>
+                    <p class="text-muted mb-0 mt-2">Join the University of Warwick Student Union</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="row">
+                            <!-- Student Registration Number -->
+                            <div class="col-12 mb-3">
+                                <label for="student_reg_number" class="form-label">Student Registration Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-card-text"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="student_reg_number" 
+                                           name="student_reg_number" 
+                                           placeholder="e.g., 2123456"
+                                           required 
+                                           autofocus>
+                                </div>
+                                <div class="form-text">Your unique university student ID</div>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="username" 
+                                           name="username" 
+                                           placeholder="Choose a username"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">University Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           name="email" 
+                                           placeholder="your.name@warwick.ac.uk"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="col-md-6 mb-3">
+                                <label for="phone_number" class="form-label">Phone Number <span class="text-muted">(Optional)</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-telephone"></i>
+                                    </span>
+                                    <input type="tel" 
+                                           class="form-control" 
+                                           id="phone_number" 
+                                           name="phone_number" 
+                                           placeholder="07123456789">
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="col-md-6 mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="password" 
+                                           name="password" 
+                                           placeholder="Create a strong password"
+                                           required
+                                           minlength="6">
+                                </div>
+                                <div class="form-text">Minimum 6 characters</div>
+                            </div>
+                        </div>
+
+                        <!-- Terms Notice -->
+                        <div class="alert alert-light border">
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                By creating an account, you agree to use this platform responsibly and in accordance with University of Warwick policies.
+                            </small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Login Link -->
+                <div class="card-footer text-center">
+                    <p class="mb-0 text-muted">
+                        Already have an account? 
+                        <a href="{{ url_for('login') }}" class="text-decoration-none">
+                            Sign in here
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Role Information Card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="card-title text-primary">
+                        <i class="bi bi-question-circle me-2"></i>Account Types
+                    </h6>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="badge bg-light text-dark me-2 mt-1">Member</div>
+                                <small class="text-muted">
+                                    View clubs, check events and bookings
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="badge bg-warning text-dark me-2 mt-1">Executive</div>
+                                <small class="text-muted">
+                                    All member features plus room booking management
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <small class="text-muted">
+                        <i class="bi bi-lightbulb me-1"></i>
+                        <strong>Note:</strong> All new accounts start as "Member" role. Contact your club administrator to be promoted to "Executive" if needed.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add some extra spacing at bottom -->
+<div class="mb-5"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const studentRegNumber = document.getElementById('student_reg_number').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        
+        // Basic validation
+        if (!studentRegNumber || !username || !email || !password) {
+            e.preventDefault();
+            alert('Please fill in all required fields.');
+            return false;
+        }
+        
+        // Email validation (must be Warwick email)
+        if (!email.includes('@warwick.ac.uk')) {
+            e.preventDefault();
+            alert('Please use your University of Warwick email address (@warwick.ac.uk).');
+            document.getElementById('email').focus();
+            return false;
+        }
+        
+        // Password length validation
+        if (password.length < 6) {
+            e.preventDefault();
+            alert('Password must be at least 6 characters long.');
+            document.getElementById('password').focus();
+            return false;
+        }
+    });
+
+    // Real-time email validation
+    document.getElementById('email').addEventListener('blur', function() {
+        const email = this.value.trim();
+        if (email && !email.includes('@warwick.ac.uk')) {
+            this.classList.add('is-invalid');
+            if (!document.querySelector('.email-error')) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'invalid-feedback email-error';
+                errorDiv.textContent = 'Please use your University of Warwick email address';
+                this.parentNode.parentNode.appendChild(errorDiv);
+            }
+        } else {
+            this.classList.remove('is-invalid');
+            const errorDiv = document.querySelector('.email-error');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    });
+</script>
+{% endblock %}

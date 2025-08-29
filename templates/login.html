@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}Login - Student Union Club Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <!-- Login Card -->
+            <div class="card card-spacing">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </h4>
+                    <p class="text-muted mb-0 mt-2">Welcome back to Club Management</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="username" 
+                                       name="username" 
+                                       placeholder="Enter your username"
+                                       required 
+                                       autofocus>
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="password" 
+                                       name="password" 
+                                       placeholder="Enter your password"
+                                       required>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            </button>
+                        </div>
+
+                        <!-- Demo Account Info -->
+                        <div class="alert alert-info">
+                            <strong>Demo Accounts:</strong><br>
+                            <small>
+                                <strong>Executive:</strong> john_doe / password123<br>
+                                <strong>Member:</strong> jane_smith / password123
+                            </small>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Registration Link -->
+                <div class="card-footer text-center">
+                    <p class="mb-0 text-muted">
+                        Don't have an account? 
+                        <a href="{{ url_for('register') }}" class="text-decoration-none">
+                            Create one here
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Info Card -->
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-primary">
+                        <i class="bi bi-info-circle me-2"></i>Getting Started
+                    </h6>
+                    <p class="card-text small text-muted mb-0">
+                        Once logged in, you can view your clubs, check upcoming events, and if you're an executive, book rooms for your club activities.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add some extra spacing at bottom -->
+<div class="mb-5"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Focus on username field when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('username').focus();
+    });
+
+    // Simple form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        
+        if (!username) {
+            e.preventDefault();
+            alert('Please enter your username.');
+            document.getElementById('username').focus();
+            return false;
+        }
+        
+        if (!password) {
+            e.preventDefault();
+            alert('Please enter your password.');
+            document.getElementById('password').focus();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

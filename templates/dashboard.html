@@ -1,0 +1,390 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - Student Union Club Management{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="display-6 fw-bold text-primary mb-1">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </h2>
+                    <p class="text-muted mb-0">
+                        Welcome back, <strong>{{ session.username }}</strong>! 
+                        {% if user_role == 'executive' %}
+                        <span class="badge bg-warning text-dark ms-1">
+                            <i class="bi bi-star me-1"></i>Executive
+                        </span>
+                        {% else %}
+                        <span class="badge bg-secondary ms-1">
+                            <i class="bi bi-person me-1"></i>Member
+                        </span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('clubs') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-search me-2"></i>Browse All Clubs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card card-spacing">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-calendar-event me-2"></i>Upcoming Events
+                    </h5>
+                    {% if upcoming_events %}
+                    <span class="badge bg-success">{{ upcoming_events|length }} event{{ 's' if upcoming_events|length != 1 else '' }}</span>
+                    {% endif %}
+                </div>
+                
+                {% if upcoming_events %}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="bi bi-calendar me-1"></i>Date & Time</th>
+                                    <th><i class="bi bi-card-text me-1"></i>Event</th>
+                                    <th><i class="bi bi-collection me-1"></i>Club</th>
+                                    <th><i class="bi bi-door-open me-1"></i>Room</th>
+                                    <th><i class="bi bi-eye me-1"></i>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in upcoming_events %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <strong>{{ event.start_time[:10] }}</strong>
+                                            <small class="text-muted">
+                                                {{ event.start_time[11:16] }} - {{ event.end_time[11:16] }}
+                                            </small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong>{{ event.event_title }}</strong>
+                                        <br><small class="text-muted">by {{ event.booked_by_username }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">{{ event.club_name }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-geo-alt me-1"></i>{{ event.room_name }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('club_details', club_id=event.club_id) }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye me-1"></i>View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                <!-- No Events State -->
+                <div class="card-body">
+                    <div class="no-data-state">
+                        <i class="bi bi-calendar-x text-muted"></i>
+                        <h5 class="mt-3 text-muted">No Upcoming Events</h5>
+                        <p class="text-muted">
+                            {% if clubs %}
+                            Your clubs don't have any upcoming events scheduled at the moment. Check back later or contact your club executives.
+                            {% else %}
+                            Join some clubs to see their upcoming events and activities here.
+                            {% endif %}
+                        </p>
+                        {% if not clubs %}
+                        <a href="{{ url_for('clubs') }}" class="btn btn-primary">
+                            <i class="bi bi-search me-2"></i>Find Clubs to Join
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h3 class="display-4 fw-bold mb-0">{{ clubs|length }}</h3>
+                    <p class="mb-0">
+                        <i class="bi bi-people me-1"></i>
+                        Club{{ 's' if clubs|length != 1 else '' }} Joined
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h3 class="display-4 fw-bold mb-0">{{ upcoming_events|length }}</h3>
+                    <p class="mb-0">
+                        <i class="bi bi-calendar-event me-1"></i>
+                        Upcoming Event{{ 's' if upcoming_events|length != 1 else '' }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card {{ 'bg-warning text-dark' if user_role == 'executive' else 'bg-secondary text-white' }}">
+                <div class="card-body text-center">
+                    <h3 class="display-4 fw-bold mb-0">
+                        {% if user_role == 'executive' %}
+                        <i class="bi bi-key"></i>
+                        {% else %}
+                        <i class="bi bi-eye"></i>
+                        {% endif %}
+                    </h3>
+                    <p class="mb-0">
+                        {% if user_role == 'executive' %}
+                        <i class="bi bi-door-open me-1"></i>
+                        Can Book Rooms
+                        {% else %}
+                        <i class="bi bi-eye me-1"></i>
+                        View Only Access
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Clubs Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-spacing">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-collection me-2"></i>My Clubs
+                    </h5>
+                    {% if not clubs %}
+                    <a href="{{ url_for('clubs') }}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Find Clubs to Join
+                    </a>
+                    {% endif %}
+                </div>
+                
+                {% if clubs %}
+                <div class="card-body">
+                    <div class="row g-4">
+                        {% for club in clubs %}
+                        <div class="col-lg-6">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div>
+                                            <h6 class="card-title text-primary fw-bold mb-1">{{ club.name }}</h6>
+                                            <span class="category-badge">
+                                                {% if club.category == 'Technology' %}
+                                                    <i class="bi bi-laptop me-1"></i>
+                                                {% elif club.category == 'Sports' %}
+                                                    <i class="bi bi-trophy me-1"></i>
+                                                {% elif club.category == 'Arts' %}
+                                                    <i class="bi bi-palette me-1"></i>
+                                                {% elif club.category == 'Academic' %}
+                                                    <i class="bi bi-book me-1"></i>
+                                                {% elif club.category == 'Cultural' %}
+                                                    <i class="bi bi-globe me-1"></i>
+                                                {% else %}
+                                                    <i class="bi bi-people me-1"></i>
+                                                {% endif %}
+                                                {{ club.category }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="card-text text-muted small mb-3">
+                                        {% if club.description %}
+                                            {{ club.description[:100] }}
+                                            {% if club.description|length > 100 %}...{% endif %}
+                                        {% else %}
+                                            No description available.
+                                        {% endif %}
+                                    </p>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="bi bi-person-check me-1"></i>Member since registration
+                                        </small>
+                                        <a href="{{ url_for('club_details', club_id=club.id) }}" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <!-- No Clubs State -->
+                <div class="card-body">
+                    <div class="no-data-state">
+                        <i class="bi bi-collection text-muted"></i>
+                        <h5 class="mt-3 text-muted">No Clubs Joined Yet</h5>
+                        <p class="text-muted mb-4">Start exploring clubs to connect with like-minded students and participate in exciting activities.</p>
+                        <a href="{{ url_for('clubs') }}" class="btn btn-primary">
+                            <i class="bi bi-search me-2"></i>Browse Available Clubs
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Features Information -->
+    {% if user_role == 'executive' %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-warning">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-star-fill me-3" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <h6 class="alert-heading mb-1">Executive Privileges</h6>
+                        <p class="mb-0">
+                            As an executive, you can book university rooms for your clubs and manage existing bookings. 
+                            Click on any of your clubs above to access booking features.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recent Activity / Next Steps -->
+    <div class="row mt-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-lightbulb me-2"></i>Quick Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% if not clubs %}
+                        <li class="d-flex align-items-start mb-2">
+                            <i class="bi bi-arrow-right text-primary me-2 mt-1"></i>
+                            <span>Join clubs that match your interests to get started</span>
+                        </li>
+                        {% endif %}
+                        <li class="d-flex align-items-start mb-2">
+                            <i class="bi bi-arrow-right text-primary me-2 mt-1"></i>
+                            <span>Check club details regularly for upcoming events and bookings</span>
+                        </li>
+                        {% if user_role == 'executive' %}
+                        <li class="d-flex align-items-start mb-2">
+                            <i class="bi bi-arrow-right text-primary me-2 mt-1"></i>
+                            <span>Book rooms in advance to ensure availability for your club events</span>
+                        </li>
+                        {% endif %}
+                        <li class="d-flex align-items-start">
+                            <i class="bi bi-arrow-right text-primary me-2 mt-1"></i>
+                            <span>Stay connected with your club communities and participate actively</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card bg-light-custom">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-primary">
+                        <i class="bi bi-question-circle me-2"></i>Need Help?
+                    </h6>
+                    <p class="card-text small text-muted mb-3">
+                        Having trouble with the platform? Check out our help resources or contact support.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm" disabled>
+                            <i class="bi bi-book me-1"></i>User Guide
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" disabled>
+                            <i class="bi bi-envelope me-1"></i>Contact Support
+                        </button>
+                    </div>
+                    <small class="text-muted mt-2 d-block">Coming soon</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add some interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate stat cards on load
+        const statCards = document.querySelectorAll('.display-4');
+        statCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 200);
+            }, index * 200);
+        });
+
+        // Add hover effects to club cards
+        const clubCards = document.querySelectorAll('.card.border');
+        clubCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 6px 12px rgba(0,0,0,0.15)';
+                this.style.transition = 'all 0.2s ease-in-out';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // Add hover effects to event table rows
+        const eventRows = document.querySelectorAll('.table tbody tr');
+        eventRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.cursor = 'pointer';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+                this.style.cursor = '';
+            });
+
+            // Make entire row clickable to view club details
+            row.addEventListener('click', function() {
+                const viewButton = this.querySelector('a[href*="club_details"]');
+                if (viewButton) {
+                    window.location.href = viewButton.href;
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

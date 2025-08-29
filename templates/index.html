@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block title %}Home - Student Union Club Management{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>University of Warwick Student Union</h1>
+        <p class="lead">Discover amazing clubs, connect with like-minded students, and manage your club activities all in one place.</p>
+        {% if not session.user_id %}
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">
+                <i class="bi bi-person-plus me-2"></i>Get Started
+            </a>
+            <a href="{{ url_for('clubs') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-search me-2"></i>Browse Clubs
+            </a>
+        </div>
+        {% else %}
+        <div class="hero-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg me-3">
+                <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+            </a>
+            <a href="{{ url_for('clubs') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-search me-2"></i>Browse All Clubs
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features Section -->
+<div class="section-spacing" style="padding: 10px;">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center mb-5">
+            <h2 class="display-6 fw-bold text-primary">Everything You Need to Manage Club Life</h2>
+            <p class="lead text-muted">Our platform makes it easy for students and club executives to stay organized and connected.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="bi bi-compass" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="card-title">Discover Clubs</h5>
+                    <p class="card-text text-muted">
+                        Browse through all available student clubs and societies. Find the perfect community that matches your interests and passions.
+                    </p>
+                    <a href="{{ url_for('clubs') }}" class="btn btn-outline-primary">Explore Clubs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 2: Track Events -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="bi bi-calendar-event" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="card-title">Track Events</h5>
+                    <p class="card-text text-muted">
+                        Stay up-to-date with upcoming club events and room bookings. Never miss an important meeting or social event again.
+                    </p>
+                    {% if session.user_id %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View My Events</a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Login to View</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 3: Book Rooms -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="bi bi-door-open" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="card-title">Book Rooms</h5>
+                    <p class="card-text text-muted">
+                        Club executives can easily book university rooms for meetings, events, and activities. Simple and efficient room management.
+                    </p>
+                    {% if session.user_id and session.role == 'executive' %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">Book Now</a>
+                    {% else %}
+                    <span class="btn btn-outline-secondary disabled">Executives Only</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if not session.user_id %}
+<div class="section-spacing">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card bg-primary text-white">
+                <div class="card-body py-5">
+                    <h3 class="card-title">Ready to Get Started?</h3>
+                    <p class="card-text lead">Join the University of Warwick Student Union Club Management platform today and connect with your community.</p>
+                    <div class="mt-4">
+                        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">
+                            <i class="bi bi-person-plus me-2"></i>Create Account
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
